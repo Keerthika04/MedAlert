@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="MedAlert - Managing emergency blood needs and kidney transplant advertisements in Sri Lanka.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="Images/logo.png" type="image/png">
+    <title>MedAlert</title>
+</head>
+
+<body>
+    <header class="navbar-container">
+        <div class="logo">
+            <img src="Images/logo.png" alt="MedAlert Logo" class="logo-img">
+            <span class="logo-name">MedAlert - Your Healthcare Partner</span>
+        </div>
+        <div class="activeNav">
+            <div id="nav-toggle" class="nav-toggle">☰</div>
+            <div class="nav-links">
+                <a href="./php/login.php" class="nav-button">Login</a>
+                <a href="./php/signup.php" class="nav-button">Signup</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2>Welcome to MedAlert</h2>
+        <p>MedAlert is your reliable partner in managing emergency blood needs and kidney transplant advertisements
+            across Sri Lanka. Our platform connects hospitals with eligible donors, ensuring that life-saving help is
+            just a click away.</p>
+    </section>
+
+    <section id="WhatWeDo">
+        <h2> - - What We Do - -</h2>
+        <div class="WhatWeDo-container">
+            <div class="WhatWeDo-card">
+                <h3>Emergency Blood Alerts</h3>
+                <p>Our real-time blood alert system notifies eligible donors instantly, ensuring that hospitals can
+                    respond swiftly to critical needs.</p>
+            </div>
+            <div class="WhatWeDo-card">
+                <h3>Kidney Transplant Advertisements</h3>
+                <p>We provide a centralized platform for hospitals to post and manage advertisements for kidney
+                    transplants, helping patients find donors faster.</p>
+            </div>
+            <div class="WhatWeDo-card">
+                <h3>Streamlined Communication</h3>
+                <p>Our platform facilitates seamless communication between hospitals and donors, reducing delays and
+                    ensuring
+                    quick coordination during emergencies.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="how-it-works">
+        <h2>How It Works</h2>
+
+        <div id="donors" class="how-it-works-item">
+            <img src="Images/donationImg.jpg" alt="Donors" class="how-it-works-img">
+            <div class="how-it-works-content">
+                <h3>Donors can:</h3>
+                <ul>
+                    <li>Update their personal details and track their donation history through their dashboard.</li>
+                    <li>Mark their attendance at donation events by scanning QR codes.</li>
+                    <li>Receive email alerts about urgent blood needs matching their blood type.</li>
+                    <li>Invite friends to join the donation community through social media links.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="hospitals" class="how-it-works-item">
+            <img src="Images/hospital.jpg" alt="Hospitals" class="how-it-works-img">
+            <div class="how-it-works-content">
+                <h3>Hospitals can:</h3>
+                <ul>
+                    <li>Register and manage their profiles, including updating information.</li>
+                    <li>Post and manage advertisements for kidney transplant recipients.</li>
+                    <li>Send notifications to registered donors about emergency blood needs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="campaigners" class="how-it-works-item">
+            <img src="Images/campaingers.jpg" alt="Campaigners" class="how-it-works-img">
+            <div class="how-it-works-content">
+                <h3>Campaigners can:</h3>
+                <ul>
+                    <li>Update their personal profiles to keep their information current.</li>
+                    <li>Request and manage posts about blood donation campaigns.</li>
+                    <li>Organize and manage blood donation events to boost participation and awareness.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="contact">
+        <h2>Join Us Today!</h2>
+        <p>By signing up, you become part of a life-saving network that ensures no emergency goes unanswered. Whether
+            you’re a donor, a hospital admin, or a campaigner, MedAlert offers you the tools you need to make a
+            difference.</p>
+        <a href="/php/login.php" class="btn"><span></span><span></span><span></span>
+            <span></span>Login</a>
+        <a href="/php/signup.php" class="btn"><span></span><span></span><span></span>
+            <span></span>Sign Up</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
+        <p><a href="#">Terms of Service</a></p>
+    </footer>
+</body>
+<script>
+    document.getElementById('nav-toggle').addEventListener('click', function () {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('active');
+        this.classList.toggle('active');
+        this.textContent = this.classList.contains('active') ? '✖' : '☰';
+        const head = document.querySelector('.navbar-container');
+        head.classList.toggle('activeHead');
+        const activeheadBg = document.querySelector('.activeNav');
+        activeheadBg.classList.toggle('activeNavBg');
+    });
+</script>
+
+</html>
