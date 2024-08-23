@@ -93,6 +93,19 @@ h2 {
     --n: 4;
 }
 
+#signup-selection, #login {
+    min-height: 100vh;
+    position: absolute;
+    width: 100%;
+    z-index: -5;
+    top: 0;
+}
+
+.m0{
+    margin: 0;
+}
+
+
 .navbar-container {
     display: flex;
     justify-content: space-between;

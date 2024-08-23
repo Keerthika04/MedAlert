@@ -8,7 +8,6 @@ require 'db_connection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login to MedAlert.">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../Images/logo.png" type="image/png">
@@ -20,13 +19,6 @@ require 'db_connection.php';
         <div class="logo">
             <img src="../Images/logo.png" alt="MedAlert Logo" class="logo-img">
             <span class="logo-name">MedAlert - Your Healthcare Partner</span>
-        </div>
-        <div class="activeNav">
-            <div id="nav-toggle" class="nav-toggle">☰</div>
-            <div class="nav-links">
-                <a href="./php/login.php" class="nav-button">Login</a>
-                <a href="./php/signup.php" class="nav-button">Signup</a>
-            </div>
         </div>
     </header>
     <div class="container text-center mt-5">
@@ -141,7 +133,7 @@ require 'db_connection.php';
                     required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn">Register</button>
         </form>
         <div class="login-link">
             <span>Already have an account? </span>
@@ -171,6 +163,24 @@ require 'db_connection.php';
             // Validation
             $errors = array();
 
+            // Check if username already exists
+            $sql = "SELECT username,email,NICnumber FROM donors";
+            $result = $db->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    if ($row["username"] === $username) {
+                        $errors[] = "Username is already taken!";
+                    }
+                    if ($row["email"] === $email) {
+                        $errors[] = "Email is already registered!";
+                    }
+                    if ($row["NICnumber"] === $NICnumber) {
+                        $errors[] = "This NIC Number has already registered!";
+                    }    
+                }
+            }
+
             // If there are no errors, send the OTP via email
             if (empty($errors)) {
                 $otp = rand(100000, 999999);
@@ -199,7 +209,7 @@ require 'db_connection.php';
                     <br>
                     <p>Please use this OTP to complete the verification process and gain access to your account. Remember, for your security, do not share this OTP with anyone.
                     <br>If you have any questions or encounter any issues during the login process, please don't hesitate to reach out to our support team at MedAlert Support.
-                    <b>From MedAlert</b>";
+                    <br><b>From MedAlert</b>";
 
                 if (!$mail->send()) {
         ?>
@@ -231,6 +241,9 @@ require 'db_connection.php';
                             'password' => $password_hashed
                         );
                         $_SESSION['user_data'] = $user_data;
+                        $_SESSION['Donor'] = TRUE;
+                        $_SESSION['Hospital'] = FALSE;
+                        $_SESSION['Campaigner'] = FALSE;
                         ?>
 
                         alert("<?php echo "Successfully sent the OTP to " . $email ?>");
@@ -240,7 +253,7 @@ require 'db_connection.php';
                 }
             } else {
                 foreach ($errors as $error) {
-                    echo "<div class='alert alert-danger'>$error</div>";
+                    echo "<div class='alert alert-danger mt-3'>" . $error . "</div>";
                 }
             }
         }
@@ -284,8 +297,8 @@ require 'db_connection.php';
         const emergencyContact = document.getElementById('emergencyContact').value;
         const errorSpan = document.getElementById('Contact_error');
 
-        if (personalContact === emergencyContact) {
-            ContactrrorSpan.textContent = "*Personal Contact and Emergency Contact shouldn't be Same!";
+        if (personalContact == emergencyContact) {
+            errorSpan.textContent = "*Personal Contact and Emergency Contact shouldn't be Same!";
             document.getElementById('emergencyContact').setCustomValidity("Personal Contact and Emergency Contact shouldn't be Same!");
             return false; // Prevents form submission
         } else {
