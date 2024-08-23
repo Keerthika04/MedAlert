@@ -34,17 +34,22 @@ require 'db_connection.php';
         <form method="post" action="donor_signup.php" class="mt-4">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
-                <input type="text" name="firstName" id="firstName" class="form-control" required>
+                <input type="text" name="firstName" id="firstName" class="form-control" required pattern="^[a-zA-Z]+$"
+                    title="First name should contain only letters!">
             </div>
 
             <div class="form-group">
                 <label for="lastName">Last Name:</label>
-                <input type="text" name="lastName" id="lastName" class="form-control" required>
+                <input type="text" name="lastName" id="lastName" class="form-control" required
+                    pattern="^[a-zA-Z]+$"
+                    title="Last name should contain only letters!">
             </div>
 
             <div class="form-group">
                 <label for="NICnumber">NIC Number:</label>
-                <input type="text" name="NICnumber" id="NICnumber" class="form-control" required>
+                <input type="text" name="NICnumber" id="NICnumber" class="form-control" required
+                    pattern="^(\d{9}V|\d{12})$"
+                    title="NIC should be 9 digits followed by 'V' (eg: 123456789V) or 12 digits (eg: 123456789012)">
             </div>
 
             <div class="form-group">
@@ -74,7 +79,7 @@ require 'db_connection.php';
 
             <div class="form-group">
                 <label for="dateOfBirth">Date of Birth:</label><br>
-                <label for="weight" class="text-danger">* Your age should be between 18 - 65  to donate blood</label>
+                <label for="weight" class="text-danger">* Your age should be between 18 - 65 to donate blood</label>
                 <input type="date" name="dateOfBirth" id="dateOfBirth" class="form-control" required>
             </div>
 
@@ -94,12 +99,20 @@ require 'db_connection.php';
 
             <div class="form-group">
                 <label for="personalContact">Personal Contact:</label>
-                <input type="text" name="personalContact" id="personalContact" class="form-control" required>
+                <input type="text" name="personalContact" id="personalContact" class="form-control" required
+                    pattern="^\+94\d{9}$"
+                    placeholder="+94XXXXXXXXX"
+                    title="Phone number should start with +94 followed by 9 digits (e.g., +94123456789)">
             </div>
 
             <div class="form-group">
-                <label for="emergencyContact">Emergency Contact:</label>
-                <input type="text" name="emergencyContact" id="emergencyContact" class="form-control" required>
+                <label for="emergencyContact">Emergency Contact:</label><br>
+                <label id="Contact_error" class="text-danger"></label>
+                <input type="text" name="emergencyContact" id="emergencyContact" class="form-control" required
+                    oninput="checkPhoneNumber()"
+                    pattern="^\+94\d{9}$"
+                    placeholder="+94XXXXXXXXX"
+                    title="Phone number should start with +94 followed by 9 digits (e.g., +94123456789)">
             </div>
 
             <div class="form-group">
@@ -114,7 +127,18 @@ require 'db_connection.php';
 
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                <input type="password" name="password" id="password" class="form-control"
+                    pattern="^(?=.*[A-Z])(?=.*\W).{8,}$"
+                    title="Password should be at least 8 characters long, include at least one uppercase letter and one special character."
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label><br>
+                <label id="password_error" class="text-danger"></label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                    oninput="checkPasswordMatch()"
+                    required>
             </div>
 
             <button type="submit" class="btn btn-primary">Register</button>
@@ -146,11 +170,6 @@ require 'db_connection.php';
 
             // Validation
             $errors = array();
-            $age = date_diff(date_create($dateOfBirth), date_create('today'))->y;
-
-            if (empty($weight) || $weight < 50) $errors[] = "You must be at least 50kg to donate blood";
-            if ($age < 18 || $age > 65) $errors[] = "You must be between 18 and 65 years old to donate blood";
-            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Valid email is required";
 
             // If there are no errors, send the OTP via email
             if (empty($errors)) {
@@ -234,11 +253,49 @@ require 'db_connection.php';
     </footer>
 </body>
 <script>
-        const today = new Date();
-        const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        const minDateString = minAgeDate.toISOString().split('T')[0];
-        document.getElementById('dateOfBirth').setAttribute('max', minDateString);
-    </script>
+    const today = new Date();
+    const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const maxAgeDate = new Date(today.getFullYear() - 65, today.getMonth(), today.getDate());
+
+    const minDateString = minAgeDate.toISOString().split('T')[0];
+    const maxDateString = maxAgeDate.toISOString().split('T')[0];
+
+    document.getElementById('dateOfBirth').setAttribute('min', maxDateString);
+    document.getElementById('dateOfBirth').setAttribute('max', minDateString);
+
+    function checkPasswordMatch() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+        const errorSpan = document.getElementById('password_error');
+
+        if (password !== confirmPassword) {
+            errorSpan.textContent = "*Passwords do not match!";
+            document.getElementById('confirm_password').setCustomValidity("Passwords do not match!");
+            return false; // Prevents form submission
+        } else {
+            errorSpan.textContent = "";
+            document.getElementById('confirm_password').setCustomValidity("");
+            return true; // Allows form submission
+        }
+    }
+
+    function checkPhoneNumber() {
+        const personalContact = document.getElementById('personalContact').value;
+        const emergencyContact = document.getElementById('emergencyContact').value;
+        const errorSpan = document.getElementById('Contact_error');
+
+        if (personalContact === emergencyContact) {
+            ContactrrorSpan.textContent = "*Personal Contact and Emergency Contact shouldn't be Same!";
+            document.getElementById('emergencyContact').setCustomValidity("Personal Contact and Emergency Contact shouldn't be Same!");
+            return false; // Prevents form submission
+        } else {
+            errorSpan.textContent = "";
+            document.getElementById('emergencyContact').setCustomValidity("");
+            return true; // Allows form submission
+        }
+    }
+
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </html>
