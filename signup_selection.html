@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="MedAlert - Managing emergency blood needs and kidney transplant advertisements in Sri Lanka.">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/signupStyle.css">
+    <link rel="icon" href="Images/logo.png" type="image/png">
+    <title>MedAlert</title>
+</head>
+
+<body>
+    <header class="navbar-container">
+        <div class="logo">
+            <img src="Images/logo.png" alt="MedAlert Logo" class="logo-img">
+            <span class="logo-name">MedAlert - Your Healthcare Partner</span>
+        </div>
+        <div class="activeNav">
+            <div id="nav-toggle" class="nav-toggle">☰</div>
+            <div class="nav-links">
+                <a href="./php/login.php" class="nav-button">Login</a>
+                <a href="./php/signup.php" class="nav-button">Signup</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="signup-selection" class="d-flex justify-content-center align-items-center text-center">
+        <div class="container">
+            <h2 class="mb-5 font-weight-bold">Create Your Account</h2>
+            <div class="row justify-content-center">
+                <div class="selectionBtn mb-3 col-md-4 d-flex justify-content-center align-items-center">
+                    <a href="./php/donor_signup.php"
+                        class="btn m0 btn-lg w-100"><span></span><span></span><span></span><span></span>
+                        Sign up as Donor</a>
+                </div>
+                <div class="selectionBtn mb-3 col-md-4 d-flex justify-content-center align-items-center">
+                    <a href="hospital_signup.php"
+                        class="btn m0 btn-lg w-100"><span></span><span></span><span></span><span></span>Sign up as
+                        Hospital</a>
+                </div>
+                <div class="selectionBtn mb-3 col-md-4 d-flex justify-content-center align-items-center">
+                    <a href="campaigner_signup.php"
+                        class="btn m0 btn-lg w-100"><span></span><span></span><span></span><span></span>Sign up as
+                        Campaigner</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bFooter">
+        <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
+        <p><a href="#">Terms of Service</a></p>
+    </footer>
+</body>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

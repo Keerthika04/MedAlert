@@ -13,22 +13,43 @@ body {
     background-color: var(--white);
 }
 
+.flex_center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    color: var(--Dred);
+}
+
+.form-group{
+    text-align: left;
+}
+
 .btn {
     display: inline-block;
     margin: 10px;
     padding: 15px 30px;
     font-size: 1.2em;
-    color: var(--Dred);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--Dred);
     letter-spacing: 0.1em;
     text-align: center;
     position: relative;
     overflow: hidden;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
     z-index: 1;
     transition: 0.5s;
 }
+
+.wBtn {
+    background-color: var(--white);
+    color: var(--Dred);
+}
+
 .btn span {
     position: absolute;
     width: 25%;
@@ -40,32 +61,37 @@ body {
     transition: 0.5s;
     transition-delay: calc((var(--n) - 1) * 0.1s);
     z-index: -1;
-  }
-  
+}
+
 .btn:hover {
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(156, 19, 19, 0.397);
     color: var(--white);
-  }
-  
+}
+
+.wBtn:hover {
+    background-color: rgba(0, 0, 0, 0.384);
+    color: var(--white);
+}
+
 .btn:hover span {
     transform: translateY(0) scale(2);
-  }
-  
+}
+
 .btn span:nth-child(1) {
     --n: 1;
-  }
-  
+}
+
 .btn span:nth-child(2) {
     --n: 2;
-  }
-  
+}
+
 .btn span:nth-child(3) {
     --n: 3;
-  }
-  
+}
+
 .btn span:nth-child(4) {
     --n: 4;
-  }
+}
 
 .navbar-container {
     display: flex;
@@ -288,13 +314,10 @@ body {
 }
 
 /* Login and Signup Page */
-#login,#signup{
+#login,
+#signup {
     text-align: center;
     margin: 5vh 0;
-}
-
-#login h2,#signup h2{
-    color: var(--Dred);
 }
 
 .auth-form {
@@ -334,17 +357,9 @@ body {
 .auth-button {
     width: 30%;
     padding: 12px;
-    background-color: var(--Dred);
-    color: var(--white);
     font-size: 16px;
     border: none;
     cursor: pointer;
-}
-
-.auth-button:hover {
-    background-color: rgba(255, 255, 255, 0.35);
-    background-color: var(--Lred);
-    color: var(--light);
 }
 
 .auth-form p {
@@ -369,6 +384,13 @@ footer {
     text-align: center;
     padding: 10px;
     position: relative;
+    margin-top: 1rem;
+}
+
+.bFooter {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
 }
 
 footer a {
@@ -382,7 +404,17 @@ footer a:hover {
     color: var(--Lred);
 }
 
+@media (max-width: 1024px) {
+    .selectionBtn .btn{
+        font-size: 1rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .selectionBtn .btn{
+        font-size: 1.2rem;
+    }
+
     .navbar-container {
         flex-wrap: nowrap;
     }
