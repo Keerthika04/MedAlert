@@ -233,6 +233,12 @@ require 'db_connection.php';
         <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
     </footer>
 </body>
+<script>
+        const today = new Date();
+        const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const minDateString = minAgeDate.toISOString().split('T')[0];
+        document.getElementById('dateOfBirth').setAttribute('max', minDateString);
+    </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </html>
