@@ -1,0 +1,12 @@
+.custom-textarea {
+    background: white;
+    text-align: justify;
+    padding: 1rem;
+    border: 1px solid grey;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.custom-textarea li{
+    list-style: none;
+}

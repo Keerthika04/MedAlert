@@ -26,8 +26,8 @@ require 'db_connection.php';
     <section id="login" class="d-flex justify-content-center flex-column text-center">
         <h2>Login to Your Account</h2>
         <form action="process_login.php" method="post" class="auth-form">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>

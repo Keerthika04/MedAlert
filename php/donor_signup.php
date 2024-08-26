@@ -8,6 +8,7 @@ require 'db_connection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../Images/logo.png" type="image/png">
@@ -205,7 +206,7 @@ require 'db_connection.php';
 
                 $mail->isHTML(true);
                 $mail->Subject = "Your MedAlert One-Time Password (OTP) for Verification";
-                $mail->Body = "<p>Dear " . $firstName . " " . $lastName . ", <br> <br>Welcome to MedAlert - Your Healthcare Partner! <br> We're thrilled to have you onboard. To ensure the security of your MedAlert account, we need to verify your email address using a One Time Password (OTP).</p> <h4>Your verification OTP code is $otp </h4>
+                $mail->Body = "<p>Dear " . $firstName . " " . $lastName . ", <br> <br>Welcome to MedAlert - Your Healthcare Partner! <br> We're thrilled to have you with us. To ensure the security of your MedAlert account, we need to verify your email address using a One Time Password (OTP).</p> <h4>Your verification OTP code is $otp </h4>
                     <br>
                     <p>Please use this OTP to complete the verification process and gain access to your account. Remember, for your security, do not share this OTP with anyone.
                     <br>If you have any questions or encounter any issues during the login process, please don't hesitate to reach out to our support team at MedAlert Support.
