@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }else{
             header("Location: manageCampaignersRequest.php");
+            exit;
         }
     } else {
         echo "Error updating event: " . $db->error;

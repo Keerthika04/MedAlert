@@ -27,7 +27,7 @@ require '../db_connection.php';
         <h2 class="my-4 text-center">Manage Campaign Events</h2>
         <div class="row">
             <?php
-            $sql = "SELECT DISTINCT e.eventid, e.name AS eventName, e.banner, e.description, e.campaignersId, e.date, e.time, e.location, e.hospitalId, e.status,
+            $sql = "SELECT DISTINCT e.eventid, e.name AS eventName, e.banner, e.description, e.campaignersId, e.date, e.time, e.location, e.hospitalId, e.status, e.shared,
            q.eventId AS qrEnv,
            h.hospitalName, c.name AS campaignerName, c.email AS campaignerEmail
     FROM events e
@@ -83,12 +83,19 @@ require '../db_connection.php';
                                         <span class="badge px-4 py-3 badge-<?php echo $row['status'] == '1' ? 'success' : 'danger'; ?>">
                                             <?php echo $row['status'] == '1' ? 'Accepted' : 'Rejected'; ?>
                                         </span>
-                                        <?php if ($row['qrEnv'] != $row['eventid']): ?>
+                                        <?php 
+                                        if ($row['qrEnv'] != $row['eventid']): ?>
                                             <form method="POST" action="generate_qr.php" style="display:inline-block;">
                                                 <input type="hidden" id="emailBody" name="eventName" value="<?php echo $row['eventName']; ?>">
                                                 <input type="hidden" id="emailBody" name="campaignerEmail" value="<?php echo $row['campaignerEmail']; ?>">
                                                 <input type="hidden" id="ImgEventID" name="eventid" value="<?php echo $row['eventid']; ?>">
                                                 <button type="button" class="badge px-4 py-3 border-0 badge-primary" onclick="generateQRCode('<?php echo $row['eventid']; ?>','<?php echo $row['campaignerEmail']; ?>','<?php echo $row['eventName']; ?>')">Generate QR</button>
+                                            </form>
+                                            <?php endif; ?>
+                                            <?php if($row['shared'] != 1): ?>
+                                                <form method="POST" action="sendToDonoars.php" style="display:inline-block;">
+                                                <input type="hidden" id="eventid" name="eventid" value="<?php echo $row['eventid']; ?>">
+                                                <button type="submit" class="badge px-4 py-3 border-0 badge-primary">Send To Donors</button>
                                             </form>
                                         <?php endif; ?>
                                         <form method="POST" action="manage_event.php" style="display:inline-block;">
