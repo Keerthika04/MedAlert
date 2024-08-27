@@ -33,7 +33,7 @@ require 'db_connection.php';
             <div class="form-group">
                 <label for="contact">Contact Number:</label>
                 <input type="text" name="contact" id="contactNo" class="form-control" required
-                    pattern="^\+94\d{9}$"
+                    pattern="^(\+94[0-9]{9}|0[0-9]{9})$"
                     placeholder="+94XXXXXXXXX"
                     title="Contact number should start with +94 followed by 9 digits (e.g., +94123456789)">
             </div>

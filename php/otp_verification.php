@@ -91,7 +91,7 @@ if (isset($_POST["verify"])) {
             $NICnumber = $_SESSION['user_data']['NICnumber'];
             $weight = $_SESSION['user_data']['weight'];
             $bloodGroup = $_SESSION['user_data']['bloodGroup'];
-            $medicalCondition = $_SESSION['user_data']['medicalCondition'];
+            $duration = $_SESSION['user_data']['duration'];
             $dateOfBirth = $_SESSION['user_data']['dateOfBirth'];
             $gender = $_SESSION['user_data']['gender'];
             $address = $_SESSION['user_data']['address'];
@@ -114,14 +114,14 @@ if (isset($_POST["verify"])) {
             }
 
             // Insert donor data into the database
-            $sql = "INSERT INTO donors (Donorid, firstName, lastName, NICnumber, weight, bloodGroup, medicalCondition, dateOfBirth, gender, address, personalContact, emergencyContact, email, username, password, eligibilityStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO donors (Donorid, firstName, lastName, NICnumber, weight, bloodGroup, donationDuration, dateOfBirth, gender, address, personalContact, emergencyContact, email, username, password, eligibilityStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $db->prepare($sql);
 
             if ($stmt === false) {
                 die("Prepare failed: " . $db->error);
             }
 
-            $stmt->bind_param("ssssissssssssssi", $new_donor_id, $firstName, $lastName, $NICnumber, $weight, $bloodGroup, $medicalCondition, $dateOfBirth, $gender, $address, $personalContact, $emergencyContact, $email, $username, $password, $eligibilityStatus);
+            $stmt->bind_param("ssssisissssssssi", $new_donor_id, $firstName, $lastName, $NICnumber, $weight, $bloodGroup, $duration, $dateOfBirth, $gender, $address, $personalContact, $emergencyContact, $email, $username, $password, $eligibilityStatus);
 
             if ($stmt->execute()) {
                 // Clear session data

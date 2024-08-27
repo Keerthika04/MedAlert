@@ -26,6 +26,9 @@ require 'db_connection.php';
         <h2 class="text-center">Donor Registration</h2>
         <form method="post" action="donor_signup.php" class="mt-4">
             <div class="form-group">
+                <label class="text-danger">* Note: If you have medical condition like HIV/AIDS, Hepatitis B or C, Cancer (especially blood cancers like leukemia or lymphoma) and Heart Disease, then you can't donate blood.</label>
+            </div>
+            <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input type="text" name="firstName" id="firstName" class="form-control" required pattern="^[a-zA-Z]+$"
                     title="First name should contain only letters!">
@@ -54,6 +57,7 @@ require 'db_connection.php';
             <div class="form-group">
                 <label for="bloodGroup">Select Blood Type:</label>
                 <select id="bloodGroup" name="bloodGroup" class="form-control" required>
+                    <option value="">Select Blood Type</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>
@@ -66,8 +70,12 @@ require 'db_connection.php';
             </div>
 
             <div class="form-group">
-                <label for="medicalCondition">Medical Condition:</label>
-                <input type="text" name="medicalCondition" id="medicalCondition" class="form-control" required>
+                <label for="duration">How often can you donate blood:</label><br>
+                <select class="form-control" name="duration" id="duration" required>
+                    <option value="">Select an option</option>
+                    <option value="3">Every 3 months</option>
+                    <option value="6">Every 6 months</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -93,7 +101,7 @@ require 'db_connection.php';
             <div class="form-group">
                 <label for="personalContact">Personal Contact:</label>
                 <input type="text" name="personalContact" id="personalContact" class="form-control" required
-                    pattern="^\+94\d{9}$"
+                    pattern="^(\+94[0-9]{9}|0[0-9]{9})$"
                     placeholder="+94XXXXXXXXX"
                     title="Phone number should start with +94 followed by 9 digits (e.g., +94123456789)">
             </div>
@@ -103,7 +111,7 @@ require 'db_connection.php';
                 <label id="Contact_error" class="text-danger"></label>
                 <input type="text" name="emergencyContact" id="emergencyContact" class="form-control" required
                     oninput="checkPhoneNumber()"
-                    pattern="^\+94\d{9}$"
+                    pattern="^(\+94[0-9]{9}|0[0-9]{9})$"
                     placeholder="+94XXXXXXXXX"
                     title="Phone number should start with +94 followed by 9 digits (e.g., +94123456789)">
             </div>
@@ -150,7 +158,7 @@ require 'db_connection.php';
             $NICnumber = $_POST["NICnumber"];
             $weight = $_POST["weight"];
             $bloodGroup = $_POST["bloodGroup"];
-            $medicalCondition = $_POST["medicalCondition"];
+            $duration = $_POST["duration"];
             $dateOfBirth = $_POST["dateOfBirth"];
             $gender = $_POST["gender"];
             $address = $_POST["address"];
@@ -178,7 +186,7 @@ require 'db_connection.php';
                     }
                     if ($row["NICnumber"] === $NICnumber) {
                         $errors[] = "This NIC Number has already registered!";
-                    }    
+                    }
                 }
             }
 
@@ -230,7 +238,7 @@ require 'db_connection.php';
                             'NICnumber' => $NICnumber,
                             'weight' => $weight,
                             'bloodGroup' => $bloodGroup,
-                            'medicalCondition' => $medicalCondition,
+                            'duration' => $duration,
                             'dateOfBirth' => $dateOfBirth,
                             'gender' => $gender,
                             'address' => $address,
@@ -308,7 +316,6 @@ require 'db_connection.php';
             return true; // Allows form submission
         }
     }
-
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
