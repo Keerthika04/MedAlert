@@ -75,6 +75,7 @@ require 'db_connection.php';
                     <option value="">Select an option</option>
                     <option value="3">Every 3 months</option>
                     <option value="6">Every 6 months</option>
+                    <option value="12">Every 12 months</option>
                 </select>
             </div>
 

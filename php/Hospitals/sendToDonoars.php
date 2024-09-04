@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $updateStmt = $db->prepare("UPDATE events SET shared = '1' WHERE eventid = ?");
         $updateStmt->bind_param('i', $eventid);
         if ($updateStmt->execute()) {
-        header("Location: manageCampaignersRequest.php");
+        header("Location: HospitalDashBoard.php");
         exit;
         }
         $updateStmt->close();
     } else {
-        header("Location: manageCampaignersRequest.php");
+        header("Location: HospitalDashBoard.php");
         exit;
     }
 

@@ -1,0 +1,147 @@
+:root {
+    --Dred: #7f0101;
+    --D2red: #d70004;
+    --Lred: #fe4a4d;
+    --white: #f1f1f1;
+    --black: #181818;
+    --light: #fff;
+}
+
+/* General Styles */
+body {
+    background-color: var(--white);
+    color: var(--black);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Heading */
+h1 {
+    color: var(--Dred);
+    font-size: 2.5em;
+    margin: 30px 0;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Edit Transplant Form */
+.auth-form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--light);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid var(--D2red);
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: var(--Dred);
+    font-size: 16px;
+}
+
+.auth-form input, 
+.auth-form textarea,
+.auth-form select {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--Dred);
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus,
+.auth-form select:focus {
+    border-color: var(--Lred);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.banner-preview {
+    margin: 10px 0;
+}
+
+.ad-banner {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--Dred);
+    border-radius: 8px;
+}
+
+/* Button Container */
+.btn-container {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 24px;
+    font-size: 16px;
+    color: var(--white);
+    background-color: var(--Dred);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--Dred);
+}
+
+.btn-secondary {
+    background-color: var(--D2red);
+}
+
+.btn:hover {
+    background-color: var(--Lred);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .auth-form {
+        padding: 20px;
+    }
+    
+    .auth-form input, 
+    .auth-form textarea,
+    .auth-form select {
+        padding: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .auth-form input, 
+    .auth-form textarea,
+    .auth-form select {
+        padding: 8px;
+    }
+    
+    .btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+}

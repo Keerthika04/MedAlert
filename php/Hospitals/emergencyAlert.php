@@ -2,8 +2,12 @@
 session_start();
 require '../db_connection.php';
 
-// $hospitalId = $_SESSION['hospitalId'];
-$hospitalId = "H00000000001"; // You can fetch this from session in a real application
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$hospitalId = $_SESSION['hospitalId'];
 
 // Fetch data from the database
 $sql = "SELECT hospitalName, address, contact, email FROM hospitals WHERE hospitalId = ?";
@@ -28,7 +32,6 @@ $stmt->close();
     <link rel="icon" href="../../Images/logo.png" type="image/png">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/hospital.css">
     <title>MedAlert</title>
 </head>
 

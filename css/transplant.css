@@ -1,0 +1,198 @@
+:root {
+    --Dred: #7f0101;
+    --D2red: #d70004;
+    --Lred: #fe4a4d;
+    --white: #f1f1f1;
+    --black: #181818;
+    --light: #fff;
+}
+
+/* General Styles */
+body {
+    background-color: var(--white);
+    color: var(--black);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Heading */
+h1 {
+    color: var(--Dred);
+    font-size: 2.5em;
+    margin: 30px 0;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Form Container */
+.auth-form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--light);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid var(--D2red);
+}
+
+/* Form Labels */
+.auth-form label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: var(--Dred);
+    font-size: 16px;
+}
+
+/* Form Inputs and Textareas */
+.auth-form input, 
+.auth-form textarea, 
+.auth-form select {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--Dred);
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Textarea Specific */
+.auth-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Input Focus States */
+.auth-form input:focus,
+.auth-form textarea:focus,
+.auth-form select:focus {
+    border-color: var(--Lred);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+/* Advertisement Banner Styling */
+.auth-form input[type="file"] {
+    border: 1px solid var(--Dred);
+    border-radius: 8px;
+    padding: 12px;
+    background-color: var(--white);
+    font-size: 16px;
+    color: var(--Dred);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.auth-form input[type="file"]::file-selector-button {
+    background-color: var(--Dred);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-form input[type="file"]::file-selector-button:hover {
+    background-color: var(--Lred);
+}
+
+.auth-form input[type="file"]:focus {
+    border-color: var(--Lred);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+/* Button Container Styling */
+.btn-container {
+    display: flex;
+    justify-content: space-between; 
+    gap: 10px; 
+    margin-top: 20px; 
+}
+
+/* Button Styling */
+.btn-container .btn {
+    flex: 1; 
+    padding: 10px 20px; 
+    text-align: center; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    transition: opacity 0.3s ease; 
+}
+
+.btn-primary {
+    background-color: #7f0101; 
+}
+
+.btn-secondary {
+    background-color: #7f0101; 
+}
+
+.btn-container .btn:hover {
+    opacity: 0.9;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .btn-container {
+        flex-direction: column;
+    }
+
+    .btn-container .btn {
+        flex: none;
+        width: 100%; 
+    }
+}
+
+/* Image Styling */
+.ad-banner {
+    max-width: 100px; 
+    max-height: 75px; 
+    display: block;
+    margin: 10px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .auth-form {
+        padding: 20px;
+    }
+    
+    .auth-form input, 
+    .auth-form textarea, 
+    .auth-form select {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .auth-form input, 
+    .auth-form textarea, 
+    .auth-form select {
+        padding: 8px;
+    }
+    
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+}

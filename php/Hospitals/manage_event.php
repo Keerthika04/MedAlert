@@ -33,17 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->addAddress($campaignerEmail);
 
             $mail->isHTML(true);
-            $mail->Subject = "Your Request has been accepted";
+            $mail->Subject = "Your Request has been Rejected";
             $mail->Body = "<p>Dear Campaigner, <br> We regret to inform you that your event request for '$eventName' has been reviewed and unfortunately rejected. <br> For further inquiries, please contact us. <br><br>
                 <b>From MedAlert</b>";
 
             if (!$mail->send()) {
                 echo "Register Failed, Invalid Email ";
             }
-            header("Location: manageCampaignersRequest.php");
+            header("Location: HospitalDashBoard.php");
             exit;
         }else{
-            header("Location: manageCampaignersRequest.php");
+            header("Location: HospitalDashBoard.php");
             exit;
         }
     } else {

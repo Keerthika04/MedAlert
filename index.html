@@ -6,9 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="MedAlert - Managing emergency blood needs and kidney transplant advertisements in Sri Lanka.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="Images/logo.png" type="image/png">
     <title>MedAlert</title>
+    <style>
+        .invite-friends {
+            width: 1000px;
+            text-align: center;
+            margin: 20px auto;
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .invite-friends h3 {
+            color: var(--Dred);
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .invite-friends p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .share-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .share-link input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid var(--Dred);
+            border-radius: 5px;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .social-share-buttons .btn {
+            margin: 5px;
+            width: auto;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            color: var(--white);
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .facebook-share {
+            background-color: #3b5998;
+        }
+
+        .facebook-share:hover {
+            background-color: #2d4373;
+        }
+
+        .twitter-share {
+            background-color: #1da1f2;
+        }
+
+        .twitter-share:hover {
+            background-color: #0d8dd3;
+        }
+
+        .instagram-share {
+            background-color: #e4405f;
+        }
+
+        .instagram-share:hover {
+            background-color: #c13584;
+        }
+
+        .whatsapp-share {
+            background-color: #25d366;
+        }
+
+        .whatsapp-share:hover {
+            background-color: #128c7e;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -100,7 +186,7 @@
 
 
     <section id="contact">
-        <h2>Join Us Today!</h2>
+        <h2>Join Hands with Us Today!</h2>
         <p>By signing up, you become part of a life-saving network that ensures no emergency goes unanswered. Whether
             you’re a donor, a hospital admin, or a campaigner, MedAlert offers you the tools you need to make a
             difference.</p>
@@ -108,6 +194,30 @@
             <span></span>Login</a>
         <a href="signup_selection.html" class="btn wBtn"><span></span><span></span><span></span>
             <span></span>Sign Up</a>
+
+        <!-- Add the invite section here -->
+        <div class="invite-friends">
+            <h3>Invite Your Friends to Donate Blood</h3>
+            <p>Share this link and encourage your friends to donate:</p>
+            <div class="share-link">
+                <input type="text" id="share-url" value="http://localhost/MedAlert/index.html" readonly>
+                <button class="btn" onclick="copyLink()">Copy Link</button>
+            </div>
+            <div class="social-share-buttons">
+                <a href="https://facebook.com/sharer/sharer.php?u=https://MedAlert.com/donate" target="_blank" class="btn facebook-share">
+                    <i class="fab fa-facebook-f"></i> Share on Facebook
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=https://MedAlert.com/donate&text=Join%20me%20in%20donating%20blood!" target="_blank" class="btn twitter-share">
+                    <i class="fab fa-twitter"></i> Share on Twitter
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" class="btn instagram-share">
+                    <i class="fab fa-instagram"></i> Share on Instagram
+                </a>
+                <a href="https://api.whatsapp.com/send?text=Join%20me%20in%20donating%20blood!%20https://MedAlert.com/donate" target="_blank" class="btn whatsapp-share">
+                    <i class="fab fa-whatsapp"></i> Share on WhatsApp
+                </a>
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -116,5 +226,14 @@
     </footer>
 </body>
 <script src="Script/script.js"></script>
+<script>
+    function copyLink() {
+        const linkInput = document.getElementById('share-url');
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand('copy');
+        alert('Link copied to clipboard!');
+    }
+</script>
 
 </html>
