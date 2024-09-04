@@ -286,6 +286,7 @@ if ($_SESSION['userLevel'] != 1) {
             </div>
             <br>
             <h2>Manage Donors</h2>
+            <button onclick="window.location.href='download_donors.php'" class="badge px-4 py-3 badge-success border-0">Download Donor Details as PDF</button>
             <?php
             $search = isset($_GET['search']) ? $_GET['search'] : '';
             $sql = "SELECT Donorid, firstName, lastName , username, NICnumber, weight, bloodGroup, dateOfBirth, gender, address, personalContact, emergencyContact, email, eligibilityStatus FROM donors";
