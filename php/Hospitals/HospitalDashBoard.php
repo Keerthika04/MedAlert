@@ -283,10 +283,10 @@ if ($_SESSION['userLevel'] != 1) {
                     <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                     <button type="submit" style="display: none;"> Search</button>
                 </form>
+                <button onclick="window.location.href='download_donors.php'" class="badge px-4 py-3 badge-warning border-0" style="font-size: 0.8rem;"><i class="fa-solid fa-download"></i> Download Donor Details as PDF</button>
             </div>
             <br>
             <h2>Manage Donors</h2>
-            <button onclick="window.location.href='download_donors.php'" class="badge px-4 py-3 badge-success border-0">Download Donor Details as PDF</button>
             <?php
             $search = isset($_GET['search']) ? $_GET['search'] : '';
             $sql = "SELECT Donorid, firstName, lastName , username, NICnumber, weight, bloodGroup, dateOfBirth, gender, address, personalContact, emergencyContact, email, eligibilityStatus FROM donors";
