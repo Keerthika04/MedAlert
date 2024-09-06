@@ -38,7 +38,7 @@ if ($historyData) {
 
     // Check if the donor is eligible based on the last donation date
     if ($currentDate < $eligibilityDate) {
-        $eligibilityStatus = 0; 
+        $eligibilityStatus = 0;
     }
 }
 
@@ -262,21 +262,9 @@ $stmt->close();
         <div id="camera-container">
             <video id="scanner" autoplay></video>
         </div>
-        <?php if (isset($_SESSION['success_msg'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['success_msg']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <?php unset($_SESSION['success_msg']); ?>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['error_msg'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['error_msg']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <?php unset($_SESSION['error_msg']); ?>
-        <?php endif; ?>
+        <form id="qrForm" action="QrScan.php" method="POST" style="display: none;">
+            <input type="hidden" id="qrDataInput" name="qrData" value="">
+        </form>
     </div>
 
     <div id="DonationHistory" class="section <?php echo $activeSection == 'DonationHistory' ? 'active' : ''; ?>">
@@ -337,7 +325,10 @@ $stmt->close();
     const video = document.getElementById('scanner');
     const resultElement = document.getElementById('result');
     const canvas = document.createElement('canvas');
-    const canvasContext = canvas.getContext('2d');
+    const canvasContext = canvas.getContext('2d', {
+        willReadFrequently: true
+    });
+    let timeoutId = null;
 
     function startVideo() {
         navigator.mediaDevices.getUserMedia({
@@ -350,6 +341,12 @@ $stmt->close();
                 video.setAttribute("playsinline", true);
                 video.play();
                 requestAnimationFrame(scanQRCode);
+
+                timeoutId = setTimeout(() => {
+                    if (confirm("Invalid QR code. Please try again.")) {
+                        location.reload();
+                    }
+                }, 60000);
             })
             .catch(err => {
                 console.error("Error accessing camera: ", err);
@@ -368,50 +365,23 @@ $stmt->close();
 
             if (code) {
                 const qrData = code.data;
-                resultElement.innerText = `Scanned Data: ${qrData}`;
-                resultElement.style.display = 'block';
                 video.srcObject.getTracks().forEach(track => track.stop());
 
-                saveScannedData(qrData);
+                clearTimeout(timeoutId);
+
+                if (confirm(`Do you want to mark your attendance?`)) {
+                    document.getElementById('qrDataInput').value = qrData;
+                    document.getElementById('qrForm').submit();
+                }
             } else {
-                requestAnimationFrame(scanQRCode);
+                requestAnimationFrame(scanQRCode); // Continue scanning
             }
         } else {
             requestAnimationFrame(scanQRCode);
         }
     }
 
-    function saveScannedData(qrData) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "QrScan.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                console.log(xhr.responseText);
-            }
-        };
-        xhr.send(`qrData=${encodeURIComponent(qrData)}`);
-    }
-
-    document.addEventListener("DOMContentLoaded", startVideo);
-
-    function showSection(sectionId) {
-        // Hide all sections
-        const sections = document.querySelectorAll('.section');
-        sections.forEach(section => {
-            section.classList.remove('active');
-        });
-
-        // Show the selected section
-        document.getElementById(sectionId).classList.add('active');
-
-        // Update active class on sidebar links
-        const links = document.querySelectorAll('.sidebar a');
-        links.forEach(link => {
-            link.classList.remove('active');
-        });
-        event.target.classList.add('active');
-    }
+    window.onload = startVideo;
 </script>
 
 </html>

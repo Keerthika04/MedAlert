@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $description = $_POST['description'];
         $hospitalId = $hospitalId;
         $adBanner = '';
+        $status = 0;
 
         // Check if email already exists
         $emailCheckSql = "SELECT email FROM kidneytransplantadvertisement WHERE email = ?";
@@ -69,11 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Insert new advertisement record
-            $sql = "INSERT INTO kidneytransplantadvertisement (kidneyTransplantAdvertisementId, patientName, age, contact, email, description, hospitalId, adBanner) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO kidneytransplantadvertisement (kidneyTransplantAdvertisementId, patientName, age, contact, email, description, hospitalId, adBanner, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $db->prepare($sql);
 
             // Correct data types: 's' for strings and 'i' for integers
-            $stmt->bind_param('ssssssss', $newAdId, $patientName, $age, $contact, $email, $description, $hospitalId, $adBanner);
+            $stmt->bind_param('ssssssssi', $newAdId, $patientName, $age, $contact, $email, $description, $hospitalId, $adBanner, $status);
 
             if ($stmt->execute()) {
                 $addMessage = "Record added successfully!";

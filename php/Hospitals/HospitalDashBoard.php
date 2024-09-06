@@ -47,6 +47,9 @@ if ($_SESSION['userLevel'] != 1) {
         <?php }; ?>
         <a href="emergencyAlert.php"><i class="fas fa-bullhorn"></i>Emergency Blood Need</a>
         <a href="setSession.php?section=transplant"><i class="fas fa-procedures"></i>Manage Kidney Transplant Recipients</a>
+        <?php if ($_SESSION['userLevel'] != 1) { ?>
+            <a href="setSession.php?section=AdManagement"><i class="fas fa-procedures"></i>Ad Management</a>
+        <?php }; ?>
         <a href="../logout.php" class="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
     </div>
 
@@ -403,16 +406,16 @@ if ($_SESSION['userLevel'] != 1) {
 
             // Query to retrieve all records from the campaigners table
             $sql = "SELECT campaignersId, name, address, contact, email, description, username FROM campaigners";
-            
+
             if (!empty($search)) {
                 $search = "%$search%";
-            
+
                 $sql .= " WHERE (name LIKE ? OR address LIKE ? OR contact LIKE ? OR email LIKE ? OR description LIKE ? OR username LIKE ?)";
                 $stmt = $db->prepare($sql);
-                
+
                 $stmt->bind_param("ssssss", $search, $search, $search, $search, $search, $search);
                 $stmt->execute();
-                
+
                 $result = $stmt->get_result();
             } else {
                 $result = $db->query($sql);
@@ -529,8 +532,8 @@ if ($_SESSION['userLevel'] != 1) {
                                             </form>
                                         <?php else: ?>
                                             <label class="text-success">*you have accepted this event</label><br>
-                                            <span class="badge px-4 py-3 badge-<?php echo $row['status'] == '1' ? 'success' : 'danger'; ?>">
-                                                <?php echo $row['status'] == '1' ? 'Accepted' : 'Rejected'; ?>
+                                            <span class="badge px-4 py-3 badge-<?php echo $row['status'] == '1' || '3' || '4' ? 'success' : 'danger'; ?>">
+                                                <?php echo $row['status'] == '1' || '3' || '4' ? 'Accepted' : 'Rejected'; ?>
                                             </span>
                                             <?php
                                             if ($row['qrEnv'] != $row['eventid']): ?>
@@ -571,7 +574,7 @@ if ($_SESSION['userLevel'] != 1) {
             </div>
         </div>
 
-
+        <!-- Transplant Request Management Section -->
         <div id="transplant" class="section <?php echo $activeSection == 'transplant' ? 'active' : ''; ?>">
             <br>
             <h2>Manage Kidney Transplant Recipients</h2>
@@ -656,6 +659,80 @@ if ($_SESSION['userLevel'] != 1) {
             }
             ?>
         </div>
+
+        <!-- Ad Management Section -->
+        <div id="AdManagement" class="section <?php echo $activeSection == 'AdManagement' ? 'active' : ''; ?>">
+            <br>
+            <?php
+            $eventAds = "SELECT eventid, banner, status FROM events WHERE status IN (1, 3, 4) ORDER BY status ASC";
+            $eventResults = mysqli_query($db, $eventAds);
+
+            $kidneyAds = "SELECT kidneyTransplantAdvertisementId, adBanner, status FROM kidneytransplantadvertisement ORDER BY status ASC";
+            $kidneyResults = mysqli_query($db, $kidneyAds);
+            ?>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="my-4 text-center">Events Ads</h2>
+                        <?php while ($event = mysqli_fetch_assoc($eventResults)) { ?>
+                            <div class="card mb-4">
+                                <img src="../../camp_post/<?php echo htmlspecialchars($event['banner']); ?>" class="card-img-top img-fluid" alt="Event Banner">
+                                <div class="card-body text-center">
+                                    <form action="updateStatus.php" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $event['eventid']; ?>">
+                                        <input type="hidden" name="adType" value="event">
+                                        <?php if ($event['status'] == 1) { ?>
+                                            <input type="hidden" name="status" value="3">
+                                            <button type="submit" class="badge px-4 py-3 badge-warning border-0">Upload</button>
+                                        <?php } elseif ($event['status'] == 3) { ?>
+                                            <p class="card-text text-success">*Currently showing on the website</p>
+                                            <input type="hidden" name="status" value="4">
+                                            <button type="submit" class="badge px-4 py-3 badge-danger border-0">Remove</button>
+                                        <?php } elseif ($event['status'] == 4) { ?>
+                                            <p class="card-text text-danger">*You have removed this from ad</p>
+                                            <input type="hidden" name="status" value="3">
+                                            <button type="submit" class="badge px-4 py-3 badge-warning border-0">Upload</button>
+                                        <?php } ?>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h2 class="my-4 text-center">Kidney Ads</h2>
+                        <?php while ($ad = mysqli_fetch_assoc($kidneyResults)) { ?>
+                            <div class="card mb-4">
+                                <img src="<?php echo htmlspecialchars($ad['adBanner']); ?>" class="card-img-top img-fluid" alt="Kidney Transplant Ad Banner" style="object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <form action="updateStatus.php" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $ad['kidneyTransplantAdvertisementId']; ?>">
+                                        <input type="hidden" name="adType" value="kidney">
+                                        <?php if ($ad['status'] == 0) { ?>
+                                            <input type="hidden" name="status" value="3">
+                                            <button type="submit" class="badge px-4 py-3 badge-warning border-0">Upload</button>
+                                        <?php } elseif ($ad['status'] == 3) { ?>
+                                            <p class="card-text text-success">*Currently showing on the website</p>
+                                            <input type="hidden" name="status" value="4">
+                                            <button type="submit" class="badge px-4 py-3 badge-danger border-0">Remove</button>
+                                        <?php } elseif ($ad['status'] == 4) { ?>
+                                            <p class="card-text text-danger">*You have removed this from ad</p>
+                                            <input type="hidden" name="status" value="3">
+                                            <button type="submit" class="badge px-4 py-3 badge-warning border-0">Upload</button>
+                                        <?php } ?>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
     </div>
 
     <!-- Font Awesome for icons -->
@@ -666,28 +743,41 @@ if ($_SESSION['userLevel'] != 1) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script>
         function generateQRCode(eventId, campaignerEmail, eventName) {
-            // console.log(eventId); 
-            const qr = qrcode(4, 'H');
-            qr.addData('Event ID: ' + eventId);
+            const padding = 20; // Define the padding size
+            const qr = qrcode(1, 'L');
+            qr.addData(eventId);
             qr.make();
+
+            const cellSize = 10; // Size of each QR code cell
+            const qrSize = qr.getModuleCount() * cellSize; // Size of the QR code
+            const canvasSize = qrSize + 2 * padding; // Total canvas size including padding
 
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            canvas.width = 400;
-            canvas.height = 400;
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
 
-            const cellSize = canvas.width / qr.getModuleCount();
+            // Draw white background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the QR code
             for (let row = 0; row < qr.getModuleCount(); row++) {
                 for (let col = 0; col < qr.getModuleCount(); col++) {
                     ctx.fillStyle = qr.isDark(row, col) ? '#000000' : '#ffffff';
-                    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                    ctx.fillRect(
+                        col * cellSize + padding,
+                        row * cellSize + padding,
+                        cellSize,
+                        cellSize
+                    );
                 }
             }
 
             const dataUrl = canvas.toDataURL('image/png');
-
             saveQRCode(dataUrl, eventId, campaignerEmail, eventName);
         }
+
 
         function saveQRCode(dataUrl, eventId, campaignerEmail, eventName) {
             console.log(campaignerEmail)

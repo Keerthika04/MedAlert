@@ -184,7 +184,7 @@ letter-spacing: 0.5px;
     background: linear-gradient(135deg, #b11919, #ff4d4d);
 }
 
-.donor-card, .hospital-card, .campaigner-card, .transplant-card {
+.donor-card, .hospital-card, .campaigner-card, .transplant-card, .ad-card {
     background: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);

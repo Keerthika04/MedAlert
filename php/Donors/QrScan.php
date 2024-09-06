@@ -2,20 +2,27 @@
 session_start();
 require '../db_connection.php';
 
-if (isset($_POST['qrData'])) {
-    $eventId = $_GET['qrData'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $donorId = $_SESSION['donorId'];
+    $eventId = $_POST['qrData'];
 
     $sql = "SELECT Historyid FROM blooddonationhistory WHERE donorId = ? AND eventid = ?";
     $stmt = $db->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $db->error);
+    }
     $stmt->bind_param("ss", $donorId, $eventId);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        echo "Record already exists.";
+        echo "<script>alert('Record already exists.'); window.location.href = 'DonorsDashboard.php';</script>";
     } else {
         $query = $db->query("SELECT Historyid FROM blooddonationhistory ORDER BY Historyid DESC LIMIT 1");
+        if (!$query) {
+            die("Query failed: " . $db->error);
+        }
+        
         $new_history_id = "H00000000001"; 
 
         if ($query->num_rows > 0) {
@@ -27,17 +34,22 @@ if (isset($_POST['qrData'])) {
         
         $insertSql = "INSERT INTO blooddonationhistory (Historyid, eventid, donorId) VALUES (?, ?, ?)";
         $insertStmt = $db->prepare($insertSql);
-        $insertStmt->bind_param("sss",$new_history_id, $eventId, $donorId);
+        if (!$insertStmt) {
+            die("Prepare failed: " . $db->error);
+        }
+        $insertStmt->bind_param("sss", $new_history_id, $eventId, $donorId);
 
         if ($insertStmt->execute()) {
-            $_SESSION['success_msg'] = "Successfully Marked";
+            echo "<script>alert('Attendance marked successfully!'); window.location.href = 'DonorsDashboard.php';</script>";
         } else {
-            $_SESSION['error_msg'] = "Try Again!";
+            echo "<script>alert('Failed to mark attendance. Please try again.  $eventId'); window.location.href = 'DonorsDashboard.php';</script>";
+            error_log("Insert failed: " . $insertStmt->error);
         }
+
+        $insertStmt->close();
     }
 
     $stmt->close();
-    $insertStmt->close();
     $db->close();
 } else {
     echo "No data received.";
