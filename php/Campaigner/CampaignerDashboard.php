@@ -462,7 +462,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
                             ";
 
                                 $stmt = $db->prepare($donationQuery);
-                                $stmt->bind_param('i', $event['eventid']);
+                                $stmt->bind_param('s', $event['eventid']);
                                 $stmt->execute();
                                 $donationResult = $stmt->get_result();
 
@@ -470,7 +470,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
                                 $bloodGroupSummary = '';
 
                                 while ($donation = $donationResult->fetch_assoc()) {
-                                    $bloodGroupSummary .= htmlspecialchars($donation['bloodGroup']) . ': ' . htmlspecialchars($donation['bloodGroupCount']) . ' donors<br>';
+                                    $bloodGroupSummary .= htmlspecialchars($donation['bloodGroup']) . ' : ' . htmlspecialchars($donation['bloodGroupCount']) . ' pint<br>';
                                     $totalDonors += $donation['bloodGroupCount'];
                                 }
                                 ?>

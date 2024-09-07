@@ -74,9 +74,13 @@ if (isset($_GET['eventId'])) {
     if (empty($donations)) {
         $pdf->Cell(0, 10, 'No donation history available.', 0, 1);
     } else {
+        $Total=0;
         foreach ($donations as $donation) {
-            $pdf->Cell(0, 10, htmlspecialchars($donation['bloodGroup']) . ': ' . htmlspecialchars($donation['bloodGroupCount']) . ' donors', 0, 1);
+            $pdf->Cell(0, 10, htmlspecialchars($donation['bloodGroup']) . ' : ' . htmlspecialchars($donation['bloodGroupCount']) . ' pint ', 0, 1);
+            $Total += $donation['bloodGroupCount'];
         }
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 10, 'Total Blood Amount Collected' . ' : ' .  $Total . ' pint ', 0, 1);
     }
 
     $pdf->Output('D', 'Event_Report_' . $eventId . '.pdf');
