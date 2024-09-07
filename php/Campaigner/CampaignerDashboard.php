@@ -31,7 +31,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
 
         /* Card Title */
         .card-title {
-            font-size: 1.5rem; 
+            font-size: 1.5rem;
             font-weight: 600;
             color: #333;
             margin-bottom: 1rem;
@@ -47,7 +47,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
         /* Status Buttons */
         .status-buttons .btn {
             font-size: 0.875rem;
-            font-weight: 500; 
+            font-weight: 500;
             padding: 0.5rem 1rem;
             border-radius: 4px;
             border: none;
@@ -69,7 +69,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
         }
 
         .status-buttons .btn-success:hover {
-            background-color: #218838; 
+            background-color: #218838;
         }
 
         .status-buttons .btn-danger {
@@ -96,14 +96,14 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
             border-bottom: 1px solid #e0e0e0;
             padding: 0.75rem;
             font-size: 2.25rem;
-            font-weight: 800; 
+            font-weight: 800;
             color: #333;
         }
 
         /* Container Heading */
         .container h2 {
             font-size: 2rem;
-            font-weight: 700; 
+            font-weight: 700;
             margin-bottom: 2rem;
         }
 
@@ -127,6 +127,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
                 <a href="setSession.php?section=profile" class="nav-button"> Profile </a>
                 <a href="setSession.php?section=requestEvent" class="nav-button"> Request Event</a>
                 <a href="setSession.php?section=manageEvent" class="nav-button">Manage Event</a>
+                <a href="setSession.php?section=eventStatistic" class="nav-button"> Event Statistic</a>
                 <a href="../logout.php" class="nav-button"> Logout</a>
             </div>
         </div>
@@ -331,6 +332,163 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
         </div>
     </div>
 
+    <div class="section <?php echo $activeSection == 'eventStatistic' ? 'active' : ''; ?>" id="eventStatistic">
+        <div class="container mt-5">
+            <h2 class="text-center mb-6">About Events</h2>
+
+            <?php
+            // Accepted events count
+            $acceptedQuery = "SELECT COUNT(*) AS AcceptedCount FROM events WHERE campaignersId = ? AND status = 1";
+            $stmtAccepted = $db->prepare($acceptedQuery);
+            $stmtAccepted->bind_param("s", $campaignersId);
+            $stmtAccepted->execute();
+            $acceptedResult = $stmtAccepted->get_result();
+            $acceptedRow = $acceptedResult->fetch_assoc();
+            $acceptedCount = $acceptedRow['AcceptedCount'];
+
+            // Pending events count
+            $pendingQuery = "SELECT COUNT(*) AS PendingCount FROM events WHERE campaignersId = ? AND status = 0";
+            $stmtPending = $db->prepare($pendingQuery);
+            $stmtPending->bind_param("s", $campaignersId);
+            $stmtPending->execute();
+            $pendingResult = $stmtPending->get_result();
+            $pendingRow = $pendingResult->fetch_assoc();
+            $pendingCount = $pendingRow['PendingCount'];
+
+            // Rejected events count
+            $rejectedQuery = "SELECT COUNT(*) AS RejectedCount FROM events WHERE campaignersId = ? AND status = 2";
+            $stmtRejected = $db->prepare($rejectedQuery);
+            $stmtRejected->bind_param("s", $campaignersId);
+            $stmtRejected->execute();
+            $rejectedResult = $stmtRejected->get_result();
+            $rejectedRow = $rejectedResult->fetch_assoc();
+            $rejectedCount = $rejectedRow['RejectedCount'];
+
+            // Report
+            $finishedQuery = "SELECT COUNT(*) AS FinishedCount FROM events WHERE campaignersId = ? AND status = 1 AND date < CURDATE()";
+            $stmtFinished = $db->prepare($finishedQuery);
+            $stmtFinished->bind_param("s", $campaignersId);
+            $stmtFinished->execute();
+            $finishedResult = $stmtFinished->get_result();
+            $finishedRow = $finishedResult->fetch_assoc();
+            $finishedCount = $finishedRow['FinishedCount'];
+
+            $finishedEventsQuery = "
+            SELECT e.eventid, 
+                e.name, 
+                e.date, 
+                h.hospitalName, 
+                h.email AS hospitalEmail, 
+                h.contact AS hospitalContact,
+                CASE 
+                    WHEN bh.eventid IS NULL THEN 'No history'
+                    ELSE 'Has history'
+                END AS donationHistoryStatus
+                    FROM events e
+                    JOIN hospitals h ON e.hospitalId = h.hospitalId
+                    LEFT JOIN blooddonationhistory bh ON e.eventid = bh.eventid
+                    WHERE e.campaignersId = ? 
+                    AND e.status = 1 
+                    AND e.date < CURDATE()
+                    GROUP BY e.eventid, h.hospitalName, h.email, h.contact ORDER BY e.date DESC; ";
+
+            $stmtFinishedEvents = $db->prepare($finishedEventsQuery);
+            $stmtFinishedEvents->bind_param("s", $campaignersId);
+            $stmtFinishedEvents->execute();
+            $eventResult = $stmtFinishedEvents->get_result();
+            $result = $eventResult->fetch_all(MYSQLI_ASSOC);
+            $stmtFinishedEvents->close();
+            ?>
+
+            <div class="card-container my-4">
+                <div class="card Rcard card-campaigners">
+                    <div class="card-content">
+                        <div>
+                            <i class="fas fa-check-circle"></i>
+                            <p>Accepted Events</p>
+                        </div>
+                        <h3><?php echo $acceptedCount; ?></h3>
+                    </div>
+                </div>
+                <div class="card Rcard card-hospital">
+                    <div class="card-content">
+                        <div>
+                            <i class="fa-regular fa-hourglass-half"></i>
+                            <p>Pending Events</p>
+                        </div>
+                        <h3><?php echo $pendingCount; ?></h3>
+                    </div>
+                </div>
+                <div class="card Rcard card-blood-groups">
+                    <div class="card-content">
+                        <div>
+                            <i class="fa-solid fa-ban"></i>
+                            <p>Rejected Events</p>
+                        </div>
+                        <h3><?php echo $rejectedCount; ?></h3>
+                    </div>
+                </div>
+                <div class="card Rcard card-donors">
+                    <div class="card-content">
+                        <div>
+                            <i class="fas fa-users"></i>
+                            <p>Finished Events</p>
+                        </div>
+                        <h3><?php echo $finishedCount; ?></h3>
+                    </div>
+                </div>
+            </div>
+
+            <?php if (count($result) > 0): ?>
+                <?php foreach ($result as $event): ?>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($event['name']); ?></h5>
+                            <p class="card-text">Conducted on: <?php echo htmlspecialchars($event['date']); ?></p>
+                            <p class="card-text">Hospital: <?php echo htmlspecialchars($event['hospitalName']); ?></p>
+                            <p class="card-text">Contact: <?php echo htmlspecialchars($event['hospitalContact']); ?>, Email: <?php echo htmlspecialchars($event['hospitalEmail']); ?></p>
+
+                            <?php if ($event['donationHistoryStatus'] === 'No history'): ?>
+                                <p>Donation count is 0.</p>
+                            <?php else: ?>
+                                <?php
+                                $donationQuery = "
+                                SELECT d.bloodGroup, 
+                                    COUNT(d.donorId) AS bloodGroupCount
+                                FROM blooddonationhistory bh
+                                JOIN donors d ON bh.donorId = d.Donorid
+                                WHERE bh.eventid = ?
+                                GROUP BY d.bloodGroup
+                            ";
+
+                                $stmt = $db->prepare($donationQuery);
+                                $stmt->bind_param('i', $event['eventid']);
+                                $stmt->execute();
+                                $donationResult = $stmt->get_result();
+
+                                $totalDonors = 0;
+                                $bloodGroupSummary = '';
+
+                                while ($donation = $donationResult->fetch_assoc()) {
+                                    $bloodGroupSummary .= htmlspecialchars($donation['bloodGroup']) . ': ' . htmlspecialchars($donation['bloodGroupCount']) . ' donors<br>';
+                                    $totalDonors += $donation['bloodGroupCount'];
+                                }
+                                ?>
+                                <h6>Blood Donation Summary</h6>
+                                <p><?php echo $bloodGroupSummary; ?></p>
+                                <p>Total Donors: <?php echo htmlspecialchars($totalDonors); ?></p>
+                            <?php endif; ?>
+
+                            <a href="downloadReport.php?eventId=<?php echo htmlspecialchars($event['eventid']); ?>" class="btn btn-primary">Download Report</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-center">No events found.</p>
+            <?php endif; ?>
+
+        </div>
+    </div>
 
 
     <footer>
@@ -362,7 +520,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
         const startTime = new Date(`2000-01-01T${startTimeInput.value}`);
         const endTime = new Date(`2000-01-01T${endTimeInput.value}`);
 
-        if (endTime - startTime < 3600000) { 
+        if (endTime - startTime < 3600000) {
             endTimeInput.setCustomValidity("End time must be at least 1 hour after start time and should be 5pm or below.");
             return false;
         } else {
@@ -388,7 +546,6 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
         });
         event.target.classList.add('active');
     }
-
 </script>
 
 </html>
