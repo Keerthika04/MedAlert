@@ -38,6 +38,7 @@ if ($_SESSION['userLevel'] != 1) {
             <a href="setSession.php?section=profile"><i class="fas fa-hospital"></i>Profile</a>
         <?php } else { ?>
             <a href="setSession.php?section=profile"><i class="fas fa-hospital"></i>Profile</a>
+            <a href="../feedback.php"><i class="fas fa-comment "></i>Feedback</a>
         <?php }; ?>
         <?php if ($_SESSION['userLevel'] != 1) { ?>
             <a href="setSession.php?section=hospital"><i class="fas fa-hospital"></i>Manage Hospital</a>

@@ -1,0 +1,440 @@
+#awareness {
+    background: linear-gradient(135deg, var(--Lred), var(--Dred)); 
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 60px;
+}
+
+#awareness::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+    z-index: -1;
+}
+
+#awareness h2 {
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#awareness p {
+    font-size: 1.4em;
+    line-height: 1.8;
+    margin-bottom: 50px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    color: var(--white);
+    position: relative;
+}
+
+#awareness p::before {
+    content: "💡";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;
+    opacity: 0.1;
+}
+
+.youtube-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.youtube-links iframe {
+    width: 100%;
+    max-width: 500px;
+    height: 280px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.youtube-links iframe:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Call to Action Button */
+#awareness .cta-btn {
+    display: inline-block;
+    margin: 20px;
+    padding: 15px 40px;
+    font-size: 1.4em;
+    color: var(--Dred);
+    background-color: var(--white);
+    text-transform: uppercase;
+    border-radius: 50px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+#awareness .cta-btn:hover {
+    background-color: var(--Lred);
+    color: var(--white);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    #awareness h2 {
+        font-size: 2.5em;
+    }
+
+    #awareness p {
+        font-size: 1.2em;
+    }
+
+    .youtube-links iframe {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+
+    #awareness .cta-btn {
+        padding: 10px 30px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    #awareness h2 {
+        font-size: 2em;
+    }
+
+    #awareness p {
+        font-size: 1em;
+    }
+
+    .youtube-links iframe {
+        max-width: 100%;
+        height: 200px;
+    }
+
+    #awareness .cta-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
+
+
+#awareness-modern {
+    padding: 80px 20px;
+    background-color: #f0f4f8;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+/* Why Donate Section */
+.why-donate-modern {
+    margin-bottom: 60px;
+}
+
+.why-donate-modern h2 {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #ff4c60;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.why-donate-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.why-donate-card {
+    background: linear-gradient(145deg, #fdfbfb, #ebedee);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.why-donate-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.why-donate-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 76, 96, 0.2);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    z-index: 0;
+}
+
+.why-donate-card i {
+    font-size: 3em;
+    color: #ff4c60;
+    margin-bottom: 20px;
+    z-index: 1;
+}
+
+.why-donate-card h4 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #333;
+    z-index: 1;
+}
+
+.why-donate-card p {
+    font-size: 1.1em;
+    color: #555;
+    z-index: 1;
+}
+
+/* FAQ Section */
+.faq-modern {
+    margin-bottom: 60px;
+}
+
+.faq-modern h2 {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #4c9f70;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.faq-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.faq-card {
+    background: linear-gradient(145deg, #fdfbfb, #ebedee);
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.faq-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.faq-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(76, 159, 112, 0.2);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    z-index: 0;
+}
+
+.faq-card h4 {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+    color: #333;
+    z-index: 1;
+}
+
+.faq-card p {
+    font-size: 1.1em;
+    color: #555;
+    z-index: 1;
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: #ff4c60;
+    color: white;
+    padding: 14px 35px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: #e05a5a;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .why-donate-cards, .faq-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Feedback Section  */
+#feedback-section {
+    background: linear-gradient(135deg, var(--Lred), var(--Dred)); 
+    padding: 60px 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.feedback-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.feedback-content h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #f3aaaa;
+    font-weight: bold;
+}
+
+.feedback-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.feedback-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #ff7e5f;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.feedback-button:hover {
+    background-color: #feb47b;
+    transform: scale(1.05);
+}
+
+.feedback-button + .feedback-button {
+    margin-left: 20px; /* Adjust this value for desired spacing */
+}
+
+
+/* Feedback form */
+#feedback {
+    background: linear-gradient(135deg, var(--Lred), var(--Dred)); 
+    padding: 60px 20px;
+    color: var(--white);
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--light);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-container h2 {
+    font-size: 2.5em;
+    color: var(--Dred);
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.feedback-container p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: var(--Dred);
+    margin-bottom: 30px;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 1.1em;
+    color: var(--Dred);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input, .form-group textarea {
+    padding: 15px;
+    border: 1px solid var(--Dred);
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input::placeholder, .form-group textarea::placeholder {
+    color: #a0a0a0;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--Lred);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn {
+    padding: 15px 30px;
+    background-color: var(--Dred);
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--Lred);
+    transform: scale(1.05);
+}
+

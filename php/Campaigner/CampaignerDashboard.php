@@ -125,6 +125,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
             <div id="nav-toggle" class="nav-toggle_long">☰</div>
             <div class="nav-links nav-links_long">
                 <a href="setSession.php?section=profile" class="nav-button"> Profile </a>
+                <a href="../feedback.php"><i class="fas fa-comment "></i>Feedback</a>
                 <a href="setSession.php?section=requestEvent" class="nav-button"> Request Event</a>
                 <a href="setSession.php?section=manageEvent" class="nav-button">Manage Event</a>
                 <a href="setSession.php?section=eventStatistic" class="nav-button"> Event Statistic</a>
