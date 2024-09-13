@@ -11,8 +11,11 @@ if (isset($_GET['kidneyTransplantAdvertisementId'])) {
     $stmt->bind_param('s', $kidneyTransplantAdvertisementId);
 
     if ($stmt->execute()) {
-        // Successful deletion, redirect or display a success message
-        header("Location: ../../php/Hospitals/HospitalDashBoard.php?message=Advertisement+deleted+successfully");
+        // Display success alert and redirect
+        echo "<script>
+                alert('Advertisement deleted successfully');
+                window.location.href='../../php/Hospitals/HospitalDashBoard.php';
+              </script>";
     } else {
         // Error handling
         echo "Error deleting record: " . $db->error;

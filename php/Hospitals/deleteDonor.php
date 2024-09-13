@@ -11,8 +11,11 @@ if (isset($_GET['donorId'])) {
     $stmt->bind_param('s', $donorId);
 
     if ($stmt->execute()) {
-        // Successful deletion, redirect or display a success message
-        header("Location: ../../php/Hospitals/HospitalDashBoard.php?message=Donor+deleted+successfully");
+        // Display success alert and redirect
+        echo "<script>
+                alert('Donor deleted successfully');
+                window.location.href='../../php/Hospitals/HospitalDashBoard.php';
+              </script>";
     } else {
         // Error handling
         echo "Error deleting record: " . $db->error;
