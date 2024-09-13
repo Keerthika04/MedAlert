@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("sssssssssii", $new_event_id, $name, $unique_name, $description, $campaignersId, $date, $time, $location, $hospitalId, $status, $shared);
 
             if ($stmt->execute()) {
+                $_SESSION['activeSection'] = "manageEvent";
                 header("Location: CampaignerDashBoard.php");
                 exit();
             } else {

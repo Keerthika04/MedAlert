@@ -125,7 +125,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
             <div id="nav-toggle" class="nav-toggle_long">☰</div>
             <div class="nav-links nav-links_long">
                 <a href="setSession.php?section=profile" class="nav-button"> Profile </a>
-                <a href="../feedback.php"><i class="fas fa-comment "></i>Feedback</a>
+                <a href="../feedback.php" class="nav-button"><i class="fas fa-comment "></i>Feedback</a>
                 <a href="setSession.php?section=requestEvent" class="nav-button"> Request Event</a>
                 <a href="setSession.php?section=manageEvent" class="nav-button">Manage Event</a>
                 <a href="setSession.php?section=eventStatistic" class="nav-button"> Event Statistic</a>
@@ -310,7 +310,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
                                             case 0:
                                                 echo '<button class="btn btn-warning">Pending</button>';
                                                 break;
-                                            case 1:
+                                            case 1 || 3 || 4:
                                                 echo '<button class="btn btn-success">Accepted</button>';
                                                 break;
                                             case 2:
@@ -339,7 +339,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
 
             <?php
             // Accepted events count
-            $acceptedQuery = "SELECT COUNT(*) AS AcceptedCount FROM events WHERE campaignersId = ? AND status = 1";
+            $acceptedQuery = "SELECT COUNT(*) AS AcceptedCount FROM events WHERE campaignersId = ? AND status = 1 OR status = 3 OR status = 4";
             $stmtAccepted = $db->prepare($acceptedQuery);
             $stmtAccepted->bind_param("s", $campaignersId);
             $stmtAccepted->execute();
@@ -366,7 +366,7 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
             $rejectedCount = $rejectedRow['RejectedCount'];
 
             // Report
-            $finishedQuery = "SELECT COUNT(*) AS FinishedCount FROM events WHERE campaignersId = ? AND status = 1 AND date < CURDATE()";
+            $finishedQuery = "SELECT COUNT(*) AS FinishedCount FROM events WHERE campaignersId = ?  AND date < CURDATE() AND status = 1 OR status = 3 OR status = 4";
             $stmtFinished = $db->prepare($finishedQuery);
             $stmtFinished->bind_param("s", $campaignersId);
             $stmtFinished->execute();
@@ -389,8 +389,8 @@ $activeSection = isset($_SESSION['activeSection']) ? $_SESSION['activeSection'] 
                     JOIN hospitals h ON e.hospitalId = h.hospitalId
                     LEFT JOIN blooddonationhistory bh ON e.eventid = bh.eventid
                     WHERE e.campaignersId = ? 
-                    AND e.status = 1 
                     AND e.date < CURDATE()
+                    AND e.status = 1 OR status = 3 OR status = 4
                     GROUP BY e.eventid, h.hospitalName, h.email, h.contact ORDER BY e.date DESC; ";
 
             $stmtFinishedEvents = $db->prepare($finishedEventsQuery);
