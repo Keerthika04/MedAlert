@@ -305,7 +305,7 @@ $stmt->close();
     </div>
 
 
-    <footer>
+    <footer class="bFooter">
         <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
     </footer>
 </body>

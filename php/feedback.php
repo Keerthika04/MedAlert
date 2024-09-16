@@ -144,19 +144,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-
-<header class="navbar-container">
-    <div class="logo">
-        <img src="../Images/logo.png" alt="MedAlert Logo" class="logo-img">
-        <span class="logo-name">MedAlert - Your Healthcare Partner</span>
-    </div>
-    <div class="activeNav">
-        <div id="nav-toggle" class="nav-toggle">☰</div>
-        <div class="nav-links">
-            <a href="login.php" class="nav-button">Login</a>
-            <a href="../signup_selection.html" class="nav-button">Signup</a>
-        </div>
-    </div>
 </header>
 
 <section id="feedback">
@@ -196,11 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
-
-<footer>
-    <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
-    <p><a href="#">Terms of Service</a></p>
-</footer>
 
 <script>
     window.onclick = function(event) {
