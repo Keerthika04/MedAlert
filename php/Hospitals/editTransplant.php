@@ -35,14 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $description = $_POST['description'];
         $hospitalId = $_POST['hospitalId'];
-        $adBanner = '';
+        $adBanner = $advertisement['adBanner'];
 
-        // Handle file upload
+        // Handle file upload, if a new file is provided
         if (isset($_FILES['adBanner']) && $_FILES['adBanner']['error'] == UPLOAD_ERR_OK) {
             $targetDir = "../../TransplantAd/";
             $targetFile = $targetDir . basename($_FILES["adBanner"]["name"]);
             if (move_uploaded_file($_FILES["adBanner"]["tmp_name"], $targetFile)) {
-                $adBanner = $targetFile;
+                $adBanner = $targetFile; // Update banner if a new file is uploaded
             }
         }
 
