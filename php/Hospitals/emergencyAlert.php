@@ -96,6 +96,8 @@ $stmt->close();
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $emailBody = $_POST['emailBody'];
+        $hospitalName = $_POST['hospitalName'];
+        $bloodType = $_POST['bloodType'];
 
         // Get eligible donors
         $sqlDonors = "SELECT email FROM donors WHERE eligibilityStatus = 1";
@@ -107,8 +109,6 @@ $stmt->close();
         if ($resultDonors->num_rows > 0) {
             while ($row = $resultDonors->fetch_assoc()) {
 
-                $hospitalName = $_POST['hospitalName'];
-                $bloodType = $_POST['bloodType'];
                 $donorEmail = $row['email'];
 
                 // Send email to each eligible donor
@@ -142,7 +142,7 @@ $stmt->close();
         $stmtHospitals->bind_param("s", $hospitalId);
         $stmtHospitals->execute();
         $resultHospitals = $stmtHospitals->get_result();
-    
+
         if ($resultHospitals->num_rows > 0) {
             while ($row = $resultHospitals->fetch_assoc()) {
                 $hospitalEmail = $row['email'];
@@ -167,9 +167,65 @@ $stmt->close();
                         echo "Email could not be sent to $hospitalEmail.";
                     } else {
     ?>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
                         <script>
-                            alert("Emergency alert sent successfully");
-                            window.location.replace('emergencyAlert.php');
+                            function generateQRCode(eventId, campaignerEmail, eventName) {
+                                const padding = 20; // Define the padding size
+                                const qr = qrcode(1, 'L');
+                                qr.addData(eventId);
+                                qr.make();
+
+                                const cellSize = 10; // Size of each QR code cell
+                                const qrSize = qr.getModuleCount() * cellSize; // Size of the QR code
+                                const canvasSize = qrSize + 2 * padding; // Total canvas size including padding
+
+                                const canvas = document.createElement('canvas');
+                                const ctx = canvas.getContext('2d');
+                                canvas.width = canvasSize;
+                                canvas.height = canvasSize;
+
+                                // Draw white background
+                                ctx.fillStyle = '#ffffff';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                                // Draw the QR code
+                                for (let row = 0; row < qr.getModuleCount(); row++) {
+                                    for (let col = 0; col < qr.getModuleCount(); col++) {
+                                        ctx.fillStyle = qr.isDark(row, col) ? '#000000' : '#ffffff';
+                                        ctx.fillRect(
+                                            col * cellSize + padding,
+                                            row * cellSize + padding,
+                                            cellSize,
+                                            cellSize
+                                        );
+                                    }
+                                }
+
+                                const dataUrl = canvas.toDataURL('image/png');
+                                saveQRCode(dataUrl, eventId, campaignerEmail, eventName);
+                            }
+
+
+                            function saveQRCode(dataUrl, eventId, campaignerEmail, eventName) {
+                                console.log(campaignerEmail)
+                                console.log(eventName)
+                                fetch('generate_qr.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                        },
+                                        body: `eventid=${eventId}&image=${encodeURIComponent(dataUrl)}&campaignerEmail=${encodeURIComponent(campaignerEmail)}&eventName=${encodeURIComponent(eventName)}`
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert("Check your email to get the attendance QR!");
+                                        } else {
+                                            alert('Error saving QR code.');
+                                        }
+                                    })
+                            }
+                            generateQRCode('<?php echo $hospitalId; ?>', '<?php echo $data['email']; ?>', 'Emergency Blood Request');
                         </script>
     <?php
                     }
@@ -186,7 +242,9 @@ $stmt->close();
     <footer>
         <p>&copy; 2024 MedAlert. All Rights Reserved.</p>
     </footer>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function updateMessage() {
             const bloodType = document.getElementById('bloodType').value;
@@ -212,9 +270,6 @@ $stmt->close();
             document.getElementById('emailBody').value = defaultMessage;
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
